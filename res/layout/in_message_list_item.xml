@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/in_user_list_item"
+    android:layout_width="fill_parent"
+    android:layout_height="55dp"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/tab_message_btn" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/userInfoLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/activity_vertical_margin" >
+
+        <TextView
+            android:id="@+id/nick"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView" />
+
+        <ImageView
+            android:id="@+id/goDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/tab_more_btn" />
+
+    </RelativeLayout>
+
+</LinearLayout>

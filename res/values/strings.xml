@@ -9,5 +9,6 @@
     <string name="username_store_key">userid</string>
     <string name="password_store_key">pwd</string>
     <string name="in_chat_store">inchatstore</string>
+    <string name="title_activity_add_friend">详细信息</string>
 
 </resources>

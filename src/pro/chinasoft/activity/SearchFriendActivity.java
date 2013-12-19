@@ -12,6 +12,7 @@ import pro.chinasoft.dialog.LoadingDialog;
 import pro.chinasoft.model.InUser;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -165,17 +166,19 @@ public class SearchFriendActivity extends Activity {
 				if (data.getRows() != null) {
 
 					Iterator<Row> it = data.getRows();
-					while (it.hasNext()) {
+					if (it.hasNext()) {
 						Row row = it.next();
 						Iterator iterator = row.getValues("jid");
 						if (iterator.hasNext()) {
+							handler.sendEmptyMessage(0);
 							String value = iterator.next().toString();
 							System.out.println("result:"+value);
-							/*InUser iu = new InUser();
-							iu.setNick(value);
-							friends.add(iu);*/
+							Intent intent = new Intent();
+							intent.setClass(SearchFriendActivity.this, AddFriendActivity.class);
+							intent.putExtra("USERID", value);
+							SearchFriendActivity.this.startActivity(intent);
 						}
-
+						
 					}
 				}
 			} catch (Exception e) {
@@ -183,7 +186,6 @@ public class SearchFriendActivity extends Activity {
 				// Toast.makeText(this,e.getMessage()+" "+e.getClass().toString(),
 				// Toast.LENGTH_SHORT).show();
 			}
-			handler.sendEmptyMessage(0);
 		}
 		public void setKeyword(String keyword) {
 			this.keyword = keyword;

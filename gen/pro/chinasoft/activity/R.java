@@ -504,7 +504,6 @@ public final class R {
         public static final int formlogin_userid=0x7f090015;
         public static final int fragment_1_list=0x7f090006;
         public static final int fragment_2_list=0x7f090007;
-        public static final int fragment_3_list=0x7f090008;
         public static final int fragment_4_list=0x7f090009;
         public static final int goDetail=0x7f09001e;
         public static final int help=0x7f090029;
@@ -525,6 +524,7 @@ public final class R {
         public static final int textview=0x7f090026;
         public static final int tv=0x7f090005;
         public static final int userInfoLayout=0x7f09001c;
+        public static final int webView=0x7f090008;
     }
     public static final class layout {
         public static final int activity_add_friend=0x7f030000;

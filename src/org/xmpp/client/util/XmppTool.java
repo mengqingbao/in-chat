@@ -5,7 +5,14 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.filter.AndFilter;
 import org.jivesoftware.smack.filter.OrFilter;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.PacketTypeFilter;
+import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.Presence;
+
+import android.util.Log;
 
 
 
@@ -49,34 +56,6 @@ public class XmppTool {
 	        });
 			
 
-			/*//消息监听
-
-			PacketFilter rosterPF = new PacketTypeFilter(RosterPacket.class);
-	        PacketFilter IQPF = new PacketTypeFilter(IQ.class);
-	        PacketFilter MSGPF = new PacketTypeFilter(Message.class);
-	        PacketFilter PresencePF = new PacketTypeFilter(Presence.class);
-	        PacketFilter AMPF = new PacketTypeFilter(AuthMechanism.class);
-	        PacketFilter REPF = new PacketTypeFilter(Response.class);
-	        
-	        OrFilter allPF = new OrFilter(rosterPF, IQPF);
-	        allPF.addFilter(MSGPF);
-	        allPF.addFilter(PresencePF);
-	        allPF.addFilter(AMPF);
-	        allPF.addFilter(REPF);
-	        PacketListener myListener = new PacketListener() {
-	            public void processPacket(Packet pk) {
-	            	if(pk instanceof Message){
-	            		Message msg=(Message) pk;
-	            		System.out.println("receive message : " +msg.getFrom()+msg.getBody());
-
-	            		//接受到消息后存储到数据库，然后刷新界面。增加未读取短信条数。
-	            		//保存
-	            		
-	            		
-	            	}
-	            }
-	        };
-	        con.addPacketListener(myListener, allPF);*/
 
 			
 			

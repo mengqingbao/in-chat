@@ -10,31 +10,29 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.webkit.WebView;
 
 public class FragmentPage3 extends Fragment{
-
+	private WebView wv=null;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {	
 		 View view = inflater.inflate(R.layout.fragment_3, container, false);
-
-		 ListView listView = (ListView) view.findViewById(R.id.fragment_3_list);
-
-         String[] values = new String[] { "公司内部规章审批", "李某某的案子审批", "李某某的流程报销",
-              "王某某的差旅费报销", " 务合同审批", "请假流程审批", "用户修改", "发表媒体关于默默的审批",
-         "Linux", "OS/2" };
-         ArrayAdapter<String> files = new ArrayAdapter<String>(getActivity(), 
-                  android.R.layout.simple_list_item_1, 
-                  values);
-
-         listView.setAdapter(files);
+		 wv=(WebView)view.findViewById(R.id.webView);
+		 wv.getSettings().setJavaScriptEnabled(true);  //设置WebView支持javascript
+		  wv.getSettings().setUseWideViewPort(true);//设置是当前html界面自适应屏幕
+		  wv.getSettings().setSupportZoom(true); //设置支持缩放
+		  wv.getSettings().setBuiltInZoomControls(true);//显示缩放控件
+		  wv.getSettings().setLoadWithOverviewMode(true);
+		  wv.getSettings().setDefaultTextEncodingName("utf-8");
+		  wv.requestFocus();
+		  wv.loadUrl("http://www.baidu.com");
          return view;	
 	}	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		
 	}
 
 

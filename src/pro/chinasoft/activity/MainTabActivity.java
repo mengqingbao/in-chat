@@ -9,7 +9,13 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.filter.AndFilter;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.PacketTypeFilter;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.Presence;
 import org.xmpp.client.util.InMessageStore;
 import org.xmpp.client.util.XmppTool;
 
@@ -118,6 +124,48 @@ public class MainTabActivity extends FragmentActivity{
 			}
 		});
        
+		  PacketFilter filter = new AndFilter(new PacketTypeFilter(  
+                  Presence.class));  
+          PacketListener listener = new PacketListener() {  
+
+              @Override  
+              public void processPacket(Packet packet) {  
+                  Log.i("Presence", "PresenceService------" + packet.toXML());  
+                  //看API可知道   Presence是Packet的子类  
+                  if (packet instanceof Presence) {  
+                      Log.i("Presence", packet.toXML());  
+                      Presence presence = (Presence) packet;  
+                      //Presence还有很多方法，可查看API   
+                      String from = presence.getFrom();//发送方  
+                      String to = presence.getTo();//接收方  
+                      //Presence.Type有7中状态  
+                      if (presence.getType().equals(Presence.Type.subscribe)) {//好友申请  
+                            System.out.println("好友申请 +++++");
+						/*   确认                         Presence presence = new Presence(
+						                                    Presence.Type.subscribed);//同意是
+						subscribed   拒绝是unsubscribe
+						                    presence.setTo(...);//接收方jid
+						                    presence.setFrom(...);//发送方jid
+						connection.sendPacket(presence);//connection是你自己的XMPPConnection链接
+*/                      } else if (presence.getType().equals(  
+                              Presence.Type.subscribed)) {//同意添加好友  
+                            
+                      } else if (presence.getType().equals(  
+                              Presence.Type.unsubscribe)) {//拒绝添加好友  和  删除好友  
+                            
+                      } else if (presence.getType().equals(  
+                              Presence.Type.unsubscribed)) {//这个我没用到  
+                      	
+                      } else if (presence.getType().equals(  
+                              Presence.Type.unavailable)) {//好友下线   要更新好友列表，可以在这收到包后，发广播到指定页面   更新列表  
+                            
+                      } else {//好友上线  
+                            
+                      }  
+                  }  
+              }  
+          };  
+          XmppTool.getConnection().addPacketListener(listener, filter);  
        setContentView(R.layout.main_tab_layout);
         
         initView();

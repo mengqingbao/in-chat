@@ -1,8 +1,17 @@
 package pro.chinasoft.service;
 
+import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.filter.AndFilter;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.PacketTypeFilter;
+import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.Presence;
+import org.xmpp.client.util.XmppTool;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 //@SuppressLint("NewApi")
 public class InSmsService extends Service{
@@ -37,7 +46,7 @@ public class InSmsService extends Service{
 	
 	@Override
 	public void onDestroy() {
-		System.out.println("++++++++++insmsservice+++++++++onDestroy+++++++++++++++");
+		System.out.println("++++++++++insmsservice++++++++onDestroy+++++++++++++++");
 		super.onDestroy();
 	}
     

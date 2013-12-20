@@ -1,5 +1,9 @@
 package pro.chinasoft.activity;
 
+import java.util.List;
+
+import org.xmpp.client.util.InMessageStore;
+
 import pro.chinasoft.activity.R;
 import pro.chinasoft.component.InMessageArrayAdapter;
 import pro.chinasoft.model.InMessage;
@@ -32,12 +36,13 @@ public class FragmentPage1 extends Fragment{
 
          ArrayAdapter<InMessage> files = new InMessageArrayAdapter(getActivity(),R.layout.in_message_list_item);
          
-		for (int i = 0; i < 10; i++) {
-			InMessage iu = new InMessage();
-			iu.setContent("你个小气的家伙"+i);
-			files.add(iu);
-			listView.setAdapter(files);
-		}
+         List<InMessage> msgs = InMessageStore.getUserMessage(this.getActivity());
+
+ 		for (int i=0;i<msgs.size();i++) {
+ 			files.add(msgs.get(i));
+ 			System.out.println(i);
+ 		}
+ 		listView.setAdapter(files);
          return view;
 	}
 	@Override

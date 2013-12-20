@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import pro.chinasoft.model.InMessage;
+import pro.chinasoft.model.InUser;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -67,5 +68,31 @@ public class InMessageStore {
 		if(db!=null){
 			db.close();
 		}
+	}
+
+	public static List<InMessage> getUserMessage(Context context) {
+		List<InMessage> result = new ArrayList<InMessage>();
+		db = getDb(true,context);
+		// Cursor c = db.query("InMessage",null,null,null,null,null,null);
+		Cursor c = db.rawQuery(
+				"select * from InMessage group by friendId order by reviceDate desc", null);
+		// String[] columns = new String[]{"content"};
+		// Cursor c = db.query("InMessage", columns, "userId='"+userId+"'",null,
+		// null, null, "Id");
+		int count=c.getCount();
+		if (c.moveToFirst()) {// 判断游标是否为空
+			for (int i = 0; i < count; i++) {
+				InMessage inMessage = new InMessage();
+				InUser user=new InUser();
+				user.setNick(c.getString(c.getColumnIndex("userId")));
+				inMessage.setContent(c.getString(c.getColumnIndex("content")));
+				inMessage.setInUser(user);
+				result.add(inMessage);
+				c.moveToNext();// 移动到指定记录
+				//c.moveToPosition(i);
+			}
+		}
+
+		return result;
 	}
 }

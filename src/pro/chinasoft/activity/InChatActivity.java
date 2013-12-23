@@ -1,7 +1,7 @@
 package pro.chinasoft.activity;
 
+import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +19,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -33,19 +32,23 @@ public class InChatActivity extends Activity {
 	private ListView listView;
 
 
-	private ArrayAdapter<InMessage> messages;
+	private InMessageArrayAdapter iadapter;
 
 	private ChatManager cm;
 	private Chat chat;
 	private String friendId;
 	private String userId;
+	private List<InMessage> msgs;
+	private Button mBtnSend;// 发送btn
+	private Button mBtnBack;// 返回btn
+	private EditText mEditTextContent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.in_chat_activity);
 
-		listView = (ListView) this.findViewById(R.id.chatHistory);
+		listView = (ListView) this.findViewById(R.id.listview);
 		String defaultValue = getResources().getString(
 				R.string.username_store_key);
 		friendId = getIntent().getStringExtra(defaultValue);
@@ -54,16 +57,16 @@ public class InChatActivity extends Activity {
 		userId = sharedPref.getString(getString(R.string.username_store_key),
 				"");
 		// 聊天记录的listview 的数据原
-		messages = new InMessageArrayAdapter(this.getApplicationContext(),
-				R.layout.in_message_list_item);
-		List<InMessage> msgs = InMessageStore.getMessages(userId, friendId, 0,
+	
+		msgs = InMessageStore.getMessages(userId, friendId, 0,
 				5, this);
-
-		for (int i=msgs.size();i>0;i--) {
-			messages.add(msgs.get(i-1));
-			System.out.println(i);
+		if(msgs==null){
+			msgs=new ArrayList<InMessage>();
 		}
-		listView.setAdapter(messages);
+		System.out.println("=============================================111111=================="+msgs.size());
+		iadapter = new InMessageArrayAdapter(this,
+				msgs);
+		listView.setAdapter(iadapter);
 		cm = XmppTool.getConnection().getChatManager();
 		chat = cm.createChat(friendId, null);
 
@@ -93,13 +96,14 @@ public class InChatActivity extends Activity {
 		this.finish();
 	}
 
+	//发送消息
 	public void sendMessage(View view) {
-		EditText text = (EditText) this.findViewById(R.id.content);
+		EditText text = (EditText) this.findViewById(R.id.et_sendmessage);
 		String message = text.getText().toString();
 		// 刷新内容
-		refresh(message);
+		refresh(message,false);
 		// 保存到sqlite
-		saveOrUpdate(userId, friendId, message);
+		saveOrUpdate(userId, friendId, message,"false");
 		try {
 			chat.sendMessage(message);
 		} catch (XMPPException e) {
@@ -110,21 +114,29 @@ public class InChatActivity extends Activity {
 		// 发送完消息后清空原来的数据
 		text.setText("");
 	}
+	public void cancel(View v){
+		this.unregisterReceiver(mReceiver);
+		this.finish();
+	}
 
-	private void saveOrUpdate(String userId, String firendId, String content) {
+	private void saveOrUpdate(String userId, String firendId, String content,String type) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("content", content);
 		map.put("userId", userId);
 		map.put("friendId", friendId);
+		map.put("type", type);
 		InMessageStore.add("InMessage", map, this);
 	}
 
-	private void refresh(String content) {
+	//type:true message from yourself,false:msg from friend
+	private void refresh(String content,boolean type) {
 		InMessage msg = new InMessage();
 		msg.setContent(content);
 		msg.setReviceDate(new Date());
-		messages.add(msg);
-		messages.notifyDataSetChanged();
+		msg.setType(type);
+		msgs.add(msg);
+		System.out.println("refresh"+msgs.size());
+		iadapter.notifyDataSetChanged();
 	}
 	BroadcastReceiver mReceiver = new BroadcastReceiver() {
 		@Override
@@ -133,8 +145,8 @@ public class InChatActivity extends Activity {
 			String friendId = intent.getStringExtra("friendId");
 			if (friendId.equals(friendId)) {
 				String content = intent.getStringExtra("content");
-				saveOrUpdate(userId, friendId, content);
-				refresh(content);
+				//saveOrUpdate(userId, friendId, content);
+				refresh(content,true);
 				
 			}
 			System.out.println("//"+friendId);

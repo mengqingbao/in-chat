@@ -39,7 +39,9 @@
         </activity>
         <activity
             android:name="pro.chinasoft.activity.InChatActivity"
-            android:label="@string/title_activity_in_chat" >
+            android:label="@string/title_activity_in_chat" 
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
+            >
         </activity>
 
         <service

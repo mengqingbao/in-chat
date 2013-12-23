@@ -6,7 +6,9 @@ import org.xmpp.client.util.InMessageStore;
 
 import pro.chinasoft.activity.R;
 import pro.chinasoft.component.InMessageArrayAdapter;
+import pro.chinasoft.component.InUserArrayAdapter;
 import pro.chinasoft.model.InMessage;
+import pro.chinasoft.model.InUser;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.os.Bundle;
@@ -34,15 +36,17 @@ public class FragmentPage1 extends Fragment{
 
 		 ListView listView = (ListView) view.findViewById(R.id.fragment_1_list);
 
-         ArrayAdapter<InMessage> files = new InMessageArrayAdapter(getActivity(),R.layout.in_message_list_item);
+		ArrayAdapter<InUser> friends = new InUserArrayAdapter(getActivity(),
+				R.layout.in_user_list_item);
          
          List<InMessage> msgs = InMessageStore.getUserMessage(this.getActivity());
 
  		for (int i=0;i<msgs.size();i++) {
- 			files.add(msgs.get(i));
- 			System.out.println(i);
+ 			InUser iu = new InUser();
+ 			iu.setNick(msgs.get(i).getInUser().getNick()+msgs.get(i).getContent());
+ 			friends.add(iu);
  		}
- 		listView.setAdapter(files);
+ 		listView.setAdapter(friends);
          return view;
 	}
 	@Override

@@ -7,6 +7,7 @@ public class InMessage {
 	private InUser inUser;
 	private String content;
 	private Date reviceDate;
+	private boolean type;  //type:true message from friends ,false:msg from yourself
 	public InUser getInUser() {
 		return inUser;
 	}
@@ -25,5 +26,12 @@ public class InMessage {
 	public void setReviceDate(Date reviceDate) {
 		this.reviceDate = reviceDate;
 	}
+	public boolean isType() {
+		return type;
+	}
+	public void setType(boolean type) {
+		this.type = type;
+	}
+	
 	
 }

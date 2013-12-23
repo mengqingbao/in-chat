@@ -86,6 +86,7 @@ public class InMessageStore {
 				InUser user=new InUser();
 				user.setNick(c.getString(c.getColumnIndex("userId")));
 				inMessage.setContent(c.getString(c.getColumnIndex("content")));
+				//inMessage.setReviceDate();
 				inMessage.setInUser(user);
 				result.add(inMessage);
 				c.moveToNext();// 移动到指定记录

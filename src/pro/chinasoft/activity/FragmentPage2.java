@@ -9,30 +9,38 @@ import org.xmpp.client.util.XmppTool;
 
 import pro.chinasoft.component.InUserArrayAdapter;
 import pro.chinasoft.model.InUser;
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
-public class FragmentPage2 extends Fragment {
+public class FragmentPage2 extends Fragment{
 
 	private ArrayAdapter<InUser> friends = null;
-
+	private Button btn;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_2, container, false);
+		btn=(Button) view.findViewById(R.id.addFriend);
+		btn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(FragmentPage2.this.getActivity(), SearchFriendActivity.class);
+				startActivity(intent);
+			} 
+			
+		});
 		ListView listView = (ListView) view.findViewById(R.id.fragment_2_list);
 		friends = new InUserArrayAdapter(getActivity(),
 				R.layout.in_user_list_item);
@@ -67,44 +75,4 @@ public class FragmentPage2 extends Fragment {
 		});
 		return view;
 	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-	}
-
-	@SuppressLint("NewApi")
-	@Override
-	public void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-		ActionBar actionBar = this.getActivity().getActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP,
-				ActionBar.DISPLAY_HOME_AS_UP);
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		MenuItem add = menu.add(0, 1, 0, "≤È’“");
-
-		add.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// handle item selection
-		switch (item.getItemId()) {
-		case 1:
-
-			Intent intent = new Intent();
-			intent.setClass(getActivity(), SearchFriendActivity.class);
-			startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
 }

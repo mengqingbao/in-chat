@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="pro.chinasoft.activity.InChatLogin"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,12 +31,11 @@
         </activity>
         <activity
             android:name="pro.chinasoft.activity.MainTabActivity"
-            android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="pro.chinasoft.activity.SearchFriendActivity"
-            android:label="@string/title_activity_search_friend"
-            android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="pro.chinasoft.activity.InChatActivity"
@@ -61,7 +61,7 @@
 
         <activity
             android:name="pro.chinasoft.activity.AddFriendActivity"
-            android:label="@string/title_activity_add_friend" android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar" >
+ 			android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
     </application>
 

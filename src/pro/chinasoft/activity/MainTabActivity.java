@@ -21,7 +21,6 @@ import org.xmpp.client.util.XmppTool;
 
 import pro.chinasoft.service.InSmsService;
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,8 +30,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
@@ -172,13 +169,9 @@ public class MainTabActivity extends FragmentActivity{
        
     }
 	
-	@SuppressLint("NewApi")
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
-		ActionBar actionBar = this.getActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.DISPLAY_HOME_AS_UP);
 	}
 
 	/**
@@ -349,17 +342,4 @@ public class MainTabActivity extends FragmentActivity{
         
          
 	}
-
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		/*MenuItem add = menu.add(0, 1, 0, "Save");  
-        MenuItem open = menu.add(0, 2, 1, "Open");  
-        MenuItem close = menu.add(0, 3, 2, "Close");  
-        add.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);  
-        open.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);  
-        close.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); */ 
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
 }

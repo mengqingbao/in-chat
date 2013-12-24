@@ -56,31 +56,5 @@ public class FragmentPage1 extends Fragment{
 	}
 
 
-	@SuppressLint("NewApi")
-	@Override
-	public void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-		ActionBar actionBar = this.getActivity().getActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.DISPLAY_HOME_AS_UP);
-	}
 
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		MenuItem add = menu.add(0, 1, 0, "Çå¿Õ");
-		add.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); 
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-	 @Override
-	  public boolean onOptionsItemSelected(MenuItem item) {
-	       // handle item selection
-	       switch (item.getItemId()) {
-	          case 1:
-	             System.out.println(item.getItemId());
-	             return true;
-	          default:
-	             return super.onOptionsItemSelected(item);
-	       }
-	    } 
 }

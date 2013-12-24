@@ -23,9 +23,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class InChatActivity extends Activity {
 
@@ -39,9 +39,6 @@ public class InChatActivity extends Activity {
 	private String friendId;
 	private String userId;
 	private List<InMessage> msgs;
-	private Button mBtnSend;// 发送btn
-	private Button mBtnBack;// 返回btn
-	private EditText mEditTextContent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,21 +60,24 @@ public class InChatActivity extends Activity {
 		if(msgs==null){
 			msgs=new ArrayList<InMessage>();
 		}
-		System.out.println("=============================================111111=================="+msgs.size());
-		iadapter = new InMessageArrayAdapter(this,
-				msgs);
+		iadapter = new InMessageArrayAdapter(this,msgs);
 		listView.setAdapter(iadapter);
 		cm = XmppTool.getConnection().getChatManager();
 		chat = cm.createChat(friendId, null);
 
 		// 注册广播接收器，接受最新信息
-		
 		IntentFilter intentFilter = new IntentFilter(
 				"pro.chinasoft.activity.InChatActivity");
 		registerReceiver(mReceiver, intentFilter);
-
+		
+		init();
 	}
 
+	private void init(){
+	   //this.findViewById(R.id.rl_bottom_more).setVisibility(View.GONE);
+	   TextView tv = (TextView) this.findViewById(R.id.in_chat_activity_title);
+	   tv.setText(friendId);
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -100,6 +100,9 @@ public class InChatActivity extends Activity {
 	public void sendMessage(View view) {
 		EditText text = (EditText) this.findViewById(R.id.et_sendmessage);
 		String message = text.getText().toString();
+		if(message==null||message==""){
+			return;
+		}
 		// 刷新内容
 		refresh(message,false);
 		// 保存到sqlite
@@ -109,11 +112,14 @@ public class InChatActivity extends Activity {
 		} catch (XMPPException e) {
 			System.out.println(e.getMessage());
 		}
-
-
 		// 发送完消息后清空原来的数据
 		text.setText("");
 	}
+	
+	public void hidMenu(View v){
+		 this.findViewById(R.id.rl_bottom_more).getLayoutParams().height=90;
+	}
+	
 	public void cancel(View v){
 		this.unregisterReceiver(mReceiver);
 		this.finish();

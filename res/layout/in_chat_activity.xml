@@ -25,6 +25,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/in_chat_activity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -32,13 +33,31 @@
             android:textColor="#ffffff"
             android:textSize="20.0sp" />
     </RelativeLayout>
-
+    <RelativeLayout
+        android:id="@+id/rl_bottom_more"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/camera_filter_review_bg" >
+        
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/rl_bottom_more"
         android:background="@drawable/layout_bg1" >
+
+		<Button
+		    android:id="@+id/simfyer_btn"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_centerVertical="true"
+		    android:layout_marginLeft="10dp"
+		    android:background="@drawable/selector_btn_add_smifey"
+		    android:onClick="hidMenu"
+		    android:text="" />
 
         <Button
             android:id="@+id/btn_send"
@@ -58,11 +77,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/btn_send"
+            android:layout_toRightOf="@id/simfyer_btn"
             android:background="@drawable/edittext1"
             android:singleLine="true"
             android:textSize="18sp" />
     </RelativeLayout>
-
     <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
@@ -74,7 +93,6 @@
         android:layout_marginTop="10.0dip"
         android:cacheColorHint="#00000000"
         android:divider="@null"
-        android:dividerHeight="5dp"
-        android:scrollbars="none" />
+        android:dividerHeight="5dp"/>
 
 </RelativeLayout>

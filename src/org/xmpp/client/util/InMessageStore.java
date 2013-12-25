@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import pro.chinasoft.database.InSQLiteOpenHelper;
 import pro.chinasoft.model.InMessage;
 import pro.chinasoft.model.InUser;
 import android.content.ContentValues;
@@ -18,14 +19,14 @@ public class InMessageStore {
 	private static SQLiteDatabase db;
 
 	private static SQLiteDatabase getDb(boolean isRead,Context context) {
-		// 读取查询数据
-/*		InSQLiteOpenHelper isqloh = new InSQLiteOpenHelper(context);
+		// 读取查询数据		
+		InSQLiteOpenHelper isqloh = new InSQLiteOpenHelper(context);
 		if(isRead){
 			return isqloh.getReadableDatabase();
 		}else{
 			return isqloh.getWritableDatabase();
-		}*/
-		return SQLiteDatabase.openOrCreateDatabase("data/data/pro.chinasoft.activity/databases/mydata.db", null);
+		}
+		//return SQLiteDatabase.openOrCreateDatabase("data/data/pro.chinasoft.activity/databases/mydata.db", null);
 	}
 
 	public static  List<InMessage> getMessages(String userId, String friendId,int start ,int limit,Context context) {

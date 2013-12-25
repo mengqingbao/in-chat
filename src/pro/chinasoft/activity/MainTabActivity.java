@@ -45,7 +45,6 @@ public class MainTabActivity extends FragmentActivity{
 	
 	//定义一个布局
 	private LayoutInflater layoutInflater;
-		
 	//定义数组来存放Fragment界面
 	private Class fragmentArray[] = {FragmentPage1.class,FragmentPage2.class,FragmentPage3.class,FragmentPage4.class};
 	

@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/in_chat_activity_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#f0f0e0" >
@@ -47,40 +48,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/rl_bottom_more"
         android:background="@drawable/layout_bg1" >
-
-		<Button
-		    android:id="@+id/simfyer_btn"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignParentLeft="true"
-		    android:layout_centerVertical="true"
-		    android:layout_marginLeft="10dp"
-		    android:background="@drawable/selector_btn_add_smifey"
-		    android:onClick="hidMenu"
-		    android:text="" />
-
-        <Button
-            android:id="@+id/btn_send"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:onClick="sendMessage"
-            android:text="发送" />
-
-        <EditText
-            android:id="@+id/et_sendmessage"
+		<include
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/btn_send"
-            android:layout_toRightOf="@id/simfyer_btn"
-            android:background="@drawable/edittext1"
-            android:singleLine="true"
-            android:textSize="18sp" />
+            android:layout_height="wrap_content"
+            layout="@layout/in_chat_activity_smify" />
     </RelativeLayout>
     <ListView
         android:id="@+id/listview"

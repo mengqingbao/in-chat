@@ -10,4 +10,15 @@
     <string name="password_store_key">pwd</string>
     <string name="in_chat_store">inchatstore</string>
     <string name="title_activity_add_friend">详细信息</string>
+    <string-array name="menu_text">
+        <item>表情</item>
+        <item>图片</item>
+        <item>文件</item>
+        <item>视频</item>
+        <item>位置</item>
+        <item>名片</item>
+        <item>我的收藏</item>
+        <item>实时对讲</item>
+        <item>视频聊天</item>
+    </string-array>
 </resources>

@@ -72,5 +72,8 @@
     </style>
     
     <!-- pop menu -->
-
+    <style name="popup_in_out" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_down_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_down_out</item>
+    </style>
 </resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="34dip"
+    android:layout_height="34dip"
+    android:background="@drawable/iv_face"
+    android:gravity="center"
+    android:padding="6dip" >
+
+    <ImageView
+        android:id="@+id/item_iv_face"
+        android:layout_width="24dip"
+        android:layout_height="24dip"
+        android:layout_centerInParent="true"
+        android:src="@drawable/smiley_1"
+        android:scaleType="fitXY" />
+
+</RelativeLayout>

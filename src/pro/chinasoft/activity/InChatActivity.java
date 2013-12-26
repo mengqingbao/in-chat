@@ -13,8 +13,6 @@ import org.xmpp.client.util.InMessageStore;
 import org.xmpp.client.util.XmppTool;
 
 import pro.chinasoft.component.InMessageArrayAdapter;
-import pro.chinasoft.menu.BottonMenuView;
-import pro.chinasoft.menu.dialog.MenuPopupWindow;
 import pro.chinasoft.model.InMessage;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -22,28 +20,42 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.RelativeLayout.LayoutParams;
 
-public class InChatActivity extends Activity{
+public class InChatActivity extends Activity implements OnClickListener{
 
 	private ListView listView;
-
-
+	private View faceView;
+	private View menuView;
+	private ViewPager pa;
 	private InMessageArrayAdapter iadapter;
+	private List<View> views;
 
 	private ChatManager cm;
 	private Chat chat;
 	private String friendId;
 	private String userId;
 	private List<InMessage> msgs;
-	private MenuPopupWindow menuView;
+	private Button sendBtn;
+	private Button btn1;
+	private Button smileyBtn1;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,10 +69,8 @@ public class InChatActivity extends Activity{
 				getString(R.string.in_chat_store), Context.MODE_PRIVATE);
 		userId = sharedPref.getString(getString(R.string.username_store_key),
 				"");
-		// 聊天记录的listview 的数据原
-	
-		msgs = InMessageStore.getMessages(userId, friendId, 0,
-				5, this);
+		// get chat history data from db
+		msgs = InMessageStore.getMessages(userId, friendId, 0,5, this);
 		if(msgs==null){
 			msgs=new ArrayList<InMessage>();
 		}
@@ -81,10 +91,14 @@ public class InChatActivity extends Activity{
 	   //this.findViewById(R.id.rl_bottom_more).setVisibility(View.GONE);
 	   TextView tv = (TextView) this.findViewById(R.id.in_chat_activity_title);
 	   tv.setText(friendId);
-	  // popupWindow = makePopupWindow(MainTabActivity.this); 
-	   menuView = new MenuPopupWindow(InChatActivity.this, null);
-	   
-	   //findViewById(R.id.simfyer_btn).setOnClickListener(this);
+	   faceView=this.findViewById(R.id.in_chat_activity_smiley_ll_facechoose);
+	   menuView=this.findViewById(R.id.in_chat_activity_smiley_ll_menu);
+	   sendBtn=(Button) this.findViewById(R.id.btn_send);
+	   sendBtn.setOnClickListener(this);
+	   btn1=(Button) this.findViewById(R.id.button1);
+	   btn1.setOnClickListener(this);
+	   smileyBtn1=(Button) this.findViewById(R.id.simfyer_btn);
+	   smileyBtn1.setOnClickListener(this);
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,45 +107,11 @@ public class InChatActivity extends Activity{
 		return true;
 	}
 
-	
-	
-
 	@Override
 	public void onBackPressed() {
 		unregisterReceiver(mReceiver);
 		InMessageStore.close();
 		System.out.println("注销监听 关闭数据库");
-		this.finish();
-	}
-
-	//发送消息
-	public void sendMessage(View view) {
-		EditText text = (EditText) this.findViewById(R.id.et_sendmessage);
-		String message = text.getText().toString();
-		if(message==null||message==""){
-			return;
-		}
-		// 刷新内容
-		refresh(message,false);
-		// 保存到sqlite
-		saveOrUpdate(userId, friendId, message,"false");
-		try {
-			chat.sendMessage(message);
-		} catch (XMPPException e) {
-			System.out.println(e.getMessage());
-		}
-		// 发送完消息后清空原来的数据
-		text.setText("");
-	}
-	
-	public void operateMenu(View v){
-		  LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
-		   View layout = inflater.inflate(R.id.simfyer_btn,null);
-		   menuView.showAtLocation(layout, Gravity.TOP|Gravity.CENTER, 150, 340);
-	}
-	
-	public void cancel(View v){
-		this.unregisterReceiver(mReceiver);
 		this.finish();
 	}
 
@@ -151,7 +131,6 @@ public class InChatActivity extends Activity{
 		msg.setReviceDate(new Date());
 		msg.setType(type);
 		msgs.add(msg);
-		System.out.println("refresh"+msgs.size());
 		iadapter.notifyDataSetChanged();
 	}
 	BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -168,5 +147,114 @@ public class InChatActivity extends Activity{
 			System.out.println("//"+friendId);
 		}
 	};
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.button1:
+			btn1Action();
+			break;
+		case R.id.simfyer_btn:
+			smileyAction();	
+			break;
+		case R.id.btn_send:
+			System.out.println(R.id.btn_send);
+			sendMessage();	
+			break;			
+		}
+	}
+	
+	public boolean onTouchEvent(MotionEvent event) {
+
+		if (menuView != null && menuView.getVisibility()==View.VISIBLE) {
+				menuView.setVisibility(View.GONE);
+		}
+		if (faceView != null && faceView.getVisibility()==View.VISIBLE){
+			faceView.setVisibility(View.GONE);
+		}
+
+		return super.onTouchEvent(event);
+
+		}
+	
+	//react to buttons's on clicks below
+	private void btn1Action(){
+		if(menuView.getVisibility()==View.VISIBLE){
+			menuView.setVisibility(View.GONE);
+		}
+		if (faceView.getVisibility() == View.GONE) {
+			if(pa==null){
+				initPaper();
+			}
+			faceView.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	private void initPaper(){
+		 pa= (ViewPager) findViewById(R.id.vp_contains);
+		 views = new ArrayList<View>();		 LayoutInflater mLi = LayoutInflater.from(this);
+		 views.add(mLi.inflate(R.layout.list_item, null));
+		 views.add(mLi.inflate(R.layout.item_face, null));
+		 views.add(mLi.inflate(R.layout.list_item, null));
+
+		 PagerAdapter mPagerAdapter = new PagerAdapter(){
+
+			@Override
+			public int getCount() {
+				return views.size();
+			}
+
+			@Override
+			public boolean isViewFromObject(View arg0, Object arg1) {
+				return false;
+			}
+			public Object instantiateItem(View container, int position) {
+			                ((ViewPager)container).addView(views.get(position));
+			                return views.get(position);
+			}
+			 @Override 
+	         public void destroyItem(View arg0, int arg1, Object arg2) { 
+	             ((ViewPager) arg0).removeView(views.get(arg1)); 
+	         } 
+
+
+		 };
+		 pa.setAdapter(mPagerAdapter);
+		
+	}
+	
+	
+	private void smileyAction(){
+		if (faceView.getVisibility() == View.VISIBLE) {
+			faceView.setVisibility(View.GONE);
+		}
+		if(menuView.getVisibility()==View.GONE){
+			menuView.setVisibility(View.VISIBLE);
+		}
+	}
+	//发送消息
+	public void sendMessage() {
+		EditText text = (EditText) this.findViewById(R.id.et_sendmessage);
+		String message = text.getText().toString();
+		if(message==null||message==""){
+			return;
+		}
+		// 刷新内容
+		refresh(message,false);
+		// 保存到sqlite
+		saveOrUpdate(userId, friendId, message,"false");
+		try {
+			chat.sendMessage(message);
+		} catch (XMPPException e) {
+			System.out.println(e.getMessage());
+		}
+		// 发送完消息后清空原来的数据
+		text.setText("");
+	}
+	
+	public void cancel(View v){
+		this.unregisterReceiver(mReceiver);
+		this.finish();
+	}
 
 }

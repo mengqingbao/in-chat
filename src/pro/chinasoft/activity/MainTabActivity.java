@@ -78,9 +78,9 @@ public class MainTabActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
        this.userid = getIntent().getStringExtra("USERID");
        
-       	Intent intent = new Intent(this,InSmsService.class);
+/*       	Intent intent = new Intent(this,InSmsService.class);
 		intent.putExtra("USERID", userid);
-		this.startService(intent);
+		this.startService(intent);*/
 		
        //ÏûÏ¢¼àÌý
        ChatManager cm = XmppTool.getConnection().getChatManager();

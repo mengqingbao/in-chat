@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/layout_bg1" >
-		<Button
+		<Button
 		    android:id="@+id/simfyer_btn"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
@@ -17,7 +17,6 @@
 		    android:layout_centerVertical="true"
 		    android:layout_marginLeft="10dp"
 		    android:background="@drawable/selector_btn_add_smifey"
-		    android:onClick="operateMenu"
 		    android:text="" />
 
         <Button
@@ -27,7 +26,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:onClick="sendMessage"
             android:text="发送" />
 
         <EditText
@@ -57,6 +55,7 @@
             android:id="@+id/vp_contains"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
+            
         </android.support.v4.view.ViewPager>
 
         <LinearLayout
@@ -69,5 +68,33 @@
             android:orientation="horizontal" >
         </LinearLayout>
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/in_chat_activity_smiley_ll_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="124dip"
+        android:layout_below="@id/in_chat_activity_smiley_ll_facechoose"
+        android:background="#f6f5f5"
+        android:visibility="gone" >
 
+        <GridLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" 
+            android:rowCount="2"  
+            android:layout_alignParentBottom="true"
+			android:layout_centerHorizontal="true"
+   			android:columnCount="4">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_gravity="left"
+                android:background="@drawable/app_panel_expression_icon" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_gravity="left"
+                android:background="@drawable/app_panel_pic_icon" />
+
+        </GridLayout>
+        
+    </RelativeLayout>
 </RelativeLayout>

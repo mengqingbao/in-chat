@@ -35,18 +35,10 @@
             android:textSize="20.0sp" />
     </RelativeLayout>
     <RelativeLayout
-        android:id="@+id/rl_bottom_more"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/camera_filter_review_bg" >
-        
-    </RelativeLayout>
-    <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/rl_bottom_more"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/layout_bg1" >
 		<include
             android:layout_width="fill_parent"

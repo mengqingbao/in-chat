@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view xmlns:android="http://schemas.android.com/apk/res/android"
+	class="pro.chinasoft.layout.SmileyRelativeLayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background = "#C5CCD4FF"
+	>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/in_chat_activity_smiley_ll_facechoose"
+    android:layout_width="fill_parent"
+    android:layout_height="124dip"
+    android:layout_below="@id/rl_input"
+    android:background="#f6f5f5">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_contains"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/iv_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="6dip"
+        android:gravity="center"
+        android:orientation="horizontal" >
+    </LinearLayout>
+</RelativeLayout>
+</view>

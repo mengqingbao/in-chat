@@ -12,6 +12,7 @@ import org.jivesoftware.smack.XMPPException;
 import org.xmpp.client.util.InMessageStore;
 import org.xmpp.client.util.XmppTool;
 
+
 import pro.chinasoft.component.InMessageArrayAdapter;
 import pro.chinasoft.model.InMessage;
 import android.app.Activity;
@@ -30,10 +31,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
@@ -46,6 +50,9 @@ public class InChatActivity extends Activity implements OnClickListener{
 	private ViewPager pa;
 	private InMessageArrayAdapter iadapter;
 	private List<View> views;
+	private ArrayList<ImageView> pointViews;
+	/** 游标显示布局 */
+	private LinearLayout layout_point;
 
 	private ChatManager cm;
 	private Chat chat;
@@ -185,6 +192,7 @@ public class InChatActivity extends Activity implements OnClickListener{
 		if (faceView.getVisibility() == View.GONE) {
 			if(pa==null){
 				initPaper();
+				Init_Point();
 			}
 			faceView.setVisibility(View.VISIBLE);
 		}
@@ -193,9 +201,9 @@ public class InChatActivity extends Activity implements OnClickListener{
 	private void initPaper(){
 		 pa= (ViewPager) findViewById(R.id.vp_contains);
 		 views = new ArrayList<View>();		 LayoutInflater mLi = LayoutInflater.from(this);
-		 views.add(mLi.inflate(R.layout.list_item, null));
 		 views.add(mLi.inflate(R.layout.item_face, null));
-		 views.add(mLi.inflate(R.layout.list_item, null));
+		 views.add(mLi.inflate(R.layout.item_face, null));
+		 views.add(mLi.inflate(R.layout.item_face, null));
 
 		 PagerAdapter mPagerAdapter = new PagerAdapter(){
 
@@ -221,6 +229,31 @@ public class InChatActivity extends Activity implements OnClickListener{
 		 };
 		 pa.setAdapter(mPagerAdapter);
 		
+	}
+	
+	private void Init_Point() {
+		layout_point = (LinearLayout) findViewById(R.id.iv_image);
+		pointViews = new ArrayList<ImageView>();
+		ImageView imageView;
+		for (int i = 0; i < views.size(); i++) {
+			imageView = new ImageView(this);
+			imageView.setBackgroundResource(R.drawable.d1);
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+					new ViewGroup.LayoutParams(LayoutParams.WRAP_CONTENT,
+							LayoutParams.WRAP_CONTENT));
+			layoutParams.leftMargin = 10;
+			layoutParams.rightMargin = 10;
+			layoutParams.width = 8;
+			layoutParams.height = 8;
+			layout_point.addView(imageView, layoutParams);
+			if (i == 0 || i == views.size() - 1) {
+				imageView.setVisibility(View.GONE);
+			}else{
+				imageView.setBackgroundResource(R.drawable.d2);
+			}
+			pointViews.add(imageView);
+
+		}
 	}
 	
 	

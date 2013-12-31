@@ -13,7 +13,10 @@ import org.xmpp.client.util.InMessageStore;
 import org.xmpp.client.util.XmppTool;
 
 
+import pro.chinasoft.adapter.SmileyAdapter;
+import pro.chinasoft.adapter.ViewPagerAdapter;
 import pro.chinasoft.component.InMessageArrayAdapter;
+import pro.chinasoft.listener.SmileyOnItemClickListener;
 import pro.chinasoft.model.InMessage;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -26,21 +29,22 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 public class InChatActivity extends Activity implements OnClickListener{
 
@@ -200,34 +204,40 @@ public class InChatActivity extends Activity implements OnClickListener{
 	
 	private void initPaper(){
 		 pa= (ViewPager) findViewById(R.id.vp_contains);
-		 views = new ArrayList<View>();		 LayoutInflater mLi = LayoutInflater.from(this);
-		 views.add(mLi.inflate(R.layout.item_face, null));
-		 views.add(mLi.inflate(R.layout.item_face, null));
-		 views.add(mLi.inflate(R.layout.item_face, null));
-
-		 PagerAdapter mPagerAdapter = new PagerAdapter(){
-
-			@Override
-			public int getCount() {
-				return views.size();
-			}
-
-			@Override
-			public boolean isViewFromObject(View arg0, Object arg1) {
-				return false;
-			}
-			public Object instantiateItem(View container, int position) {
-			                ((ViewPager)container).addView(views.get(position));
-			                return views.get(position);
-			}
-			 @Override 
-	         public void destroyItem(View arg0, int arg1, Object arg2) { 
-	             ((ViewPager) arg0).removeView(views.get(arg1)); 
-	         } 
-
-
-		 };
-		 pa.setAdapter(mPagerAdapter);
+		 views = new ArrayList<View>();		 //GridView gridView = (GridView) findViewById(R.layout.in_chat_activity_face);///(GridView)this.getLayoutInflater().inflate(R.layout.in_chat_activity_face,null);
+		 for(int i=0;i<3;i++){
+			 GridView gridView = new GridView(this);
+			 SmileyAdapter adapter = new SmileyAdapter(this,i);
+			 gridView.setOnItemClickListener(new SmileyOnItemClickListener(this));
+			 gridView.setNumColumns(7);
+			 gridView.setBackgroundColor(Color.TRANSPARENT);
+			 gridView.setHorizontalSpacing(1);
+			 gridView.setVerticalSpacing(1);
+			 gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+			 gridView.setCacheColorHint(0);
+			 gridView.setPadding(5, 0, 5, 0);
+			 gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
+			 gridView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+						LayoutParams.MATCH_PARENT));
+			 gridView.setGravity(Gravity.CENTER);
+			 gridView.setAdapter(adapter);
+			 views.add(gridView);
+		 }
+		 pa.setAdapter(new ViewPagerAdapter(views));
+		 pa.setOnPageChangeListener(new OnPageChangeListener() {
+				@Override
+				public void onPageSelected(int position) {
+					draw_Point(position);
+					pa.setCurrentItem(position);
+				}
+				@Override
+				public void onPageScrolled(int arg0, float arg1, int arg2) {
+				}
+				@Override
+				public void onPageScrollStateChanged(int arg0) {
+				}
+			});
+		 
 		
 	}
 	
@@ -235,6 +245,7 @@ public class InChatActivity extends Activity implements OnClickListener{
 		layout_point = (LinearLayout) findViewById(R.id.iv_image);
 		pointViews = new ArrayList<ImageView>();
 		ImageView imageView;
+		System.out.println(views.size()+"init_point");
 		for (int i = 0; i < views.size(); i++) {
 			imageView = new ImageView(this);
 			imageView.setBackgroundResource(R.drawable.d1);
@@ -246,16 +257,26 @@ public class InChatActivity extends Activity implements OnClickListener{
 			layoutParams.width = 8;
 			layoutParams.height = 8;
 			layout_point.addView(imageView, layoutParams);
-			if (i == 0 || i == views.size() - 1) {
-				imageView.setVisibility(View.GONE);
-			}else{
+			if (i == 0) {
 				imageView.setBackgroundResource(R.drawable.d2);
+			}else{
+				imageView.setBackgroundResource(R.drawable.d1);
 			}
 			pointViews.add(imageView);
 
 		}
 	}
 	
+	//redraw point when pages change.
+	public void draw_Point(int index) {
+		for (int i = 0; i < pointViews.size(); i++) {
+			if (index == i) {
+				pointViews.get(i).setBackgroundResource(R.drawable.d2);
+			} else {
+				pointViews.get(i).setBackgroundResource(R.drawable.d1);
+			}
+		}
+	}
 	
 	private void smileyAction(){
 		if (faceView.getVisibility() == View.VISIBLE) {
@@ -290,4 +311,5 @@ public class InChatActivity extends Activity implements OnClickListener{
 		this.finish();
 	}
 
+	
 }

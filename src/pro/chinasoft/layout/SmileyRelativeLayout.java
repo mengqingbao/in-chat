@@ -64,9 +64,9 @@ public class SmileyRelativeLayout extends RelativeLayout implements
 		 pa= (ViewPager) findViewById(R.id.vp_contains);
 		 views = new ArrayList<View>();
 		 LayoutInflater mLi = LayoutInflater.from(this.getContext());
-		 views.add(mLi.inflate(R.layout.item_face, null));
-		 views.add(mLi.inflate(R.layout.item_face, null));
-		 views.add(mLi.inflate(R.layout.item_face, null));
+		 views.add(mLi.inflate(R.layout.item_smiley, null));
+		 views.add(mLi.inflate(R.layout.item_smiley, null));
+		 views.add(mLi.inflate(R.layout.item_smiley, null));
 
 		 PagerAdapter mPagerAdapter = new PagerAdapter(){
 

@@ -7,11 +7,10 @@
     android:padding="6dip" >
 
     <ImageView
-        android:id="@+id/item_iv_face"
+        android:id="@+id/item_iv_smiley"
         android:layout_width="24dip"
         android:layout_height="24dip"
         android:layout_centerInParent="true"
-        android:src="@drawable/smiley_1"
         android:scaleType="fitXY" />
 
 </RelativeLayout>

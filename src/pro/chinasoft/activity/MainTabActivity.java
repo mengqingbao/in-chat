@@ -102,12 +102,9 @@ public class MainTabActivity extends FragmentActivity{
 							Log.v("--tags--", "--tags-message--信息 "+message.getBody());
 						}
 						try {
-							Map<String, String> map = new HashMap<String, String>();
-							map.put("content", message.getBody());
-							map.put("userId", userid);
-							map.put("friendId", friendId);
-							InMessageStore.add("InMessage", map,MainTabActivity.this);
+							InMessageStore.saveOrUpdate(userid, friendId, message.getBody(), true,MainTabActivity.this.getApplicationContext());
 						} catch (Exception e) {
+							System.out.println(e.getMessage()+"exception");
 							Log.i("--tags--", e.getMessage());
 						}
 						//发送广播通知更新聊天页面内容

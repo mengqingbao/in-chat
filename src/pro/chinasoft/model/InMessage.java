@@ -6,7 +6,7 @@ public class InMessage {
 
 	private InUser inUser;
 	private String content;
-	private Date reviceDate;
+	private Date createDate;
 	private boolean type;  //type:true message from friends ,false:msg from yourself
 	public InUser getInUser() {
 		return inUser;
@@ -20,11 +20,11 @@ public class InMessage {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getReviceDate() {
-		return reviceDate;
+	public Date getCreateDate() {
+		return createDate;
 	}
-	public void setReviceDate(Date reviceDate) {
-		this.reviceDate = reviceDate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	public boolean isType() {
 		return type;

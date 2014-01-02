@@ -1,6 +1,8 @@
 package org.xmpp.client.util;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +36,7 @@ public class InMessageStore {
 		db = getDb(true,context);
 		// Cursor c = db.query("InMessage",null,null,null,null,null,null);
 		Cursor c = db.rawQuery(
-				"select * from InMessage where userId=? and friendId=? order by id desc limit "+limit+" offset "+start,
+				"select * from InMessage where userId=? and friendId=? order by id asc limit "+limit+" offset "+start,
 				new String[] { userId, friendId });
 		// String[] columns = new String[]{"content"};
 		// Cursor c = db.query("InMessage", columns, "userId='"+userId+"'",null,
@@ -44,6 +46,8 @@ public class InMessageStore {
 			for (int i = 0; i < count; i++) {
 				InMessage inMessage = new InMessage();
 				inMessage.setContent(c.getString(c.getColumnIndex("content")));
+				inMessage.setType(Boolean.parseBoolean(c.getString(c.getColumnIndex("type"))));
+				inMessage.setCreateDate(DateUtil.parseDate(c.getString(c.getColumnIndex("createDate"))));
 				result.add(inMessage);
 				c.moveToNext();// 移动到指定记录
 				//c.moveToPosition(i);
@@ -53,18 +57,18 @@ public class InMessageStore {
 		return result;
 	}
 
-	public static void add(String tname, Map<String, String> map,Context context) {
+	public static void saveOrUpdate(String userId, String friendId, String content,boolean type,Context context) {
 		db = getDb(false,context);
 		ContentValues cv = new ContentValues();
-		Set<String> key = map.keySet();
-		for (Iterator it = key.iterator(); it.hasNext();) {
-			String s = (String) it.next();
-			cv.put(s, map.get(s));
-		}
-		db.insert(tname, null, cv);
+		cv.put("content", content);
+		cv.put("userId", userId);
+		cv.put("friendId", friendId);
+		cv.put("type", type);
+		cv.put("createDate",(new Date()).getTime());
+		db.insert("InMessage", null, cv);
 		db.close();
 	}
-
+	
 	public static void close(){
 		if(db!=null){
 			db.close();
@@ -76,7 +80,7 @@ public class InMessageStore {
 		db = getDb(true,context);
 		// Cursor c = db.query("InMessage",null,null,null,null,null,null);
 		Cursor c = db.rawQuery(
-				"select * from InMessage group by friendId order by reviceDate desc", null);
+				"select * from InMessage group by friendId order by createDate asc", null);
 		// String[] columns = new String[]{"content"};
 		// Cursor c = db.query("InMessage", columns, "userId='"+userId+"'",null,
 		// null, null, "Id");

@@ -24,12 +24,8 @@ public class SmileyOnItemClickListener implements AdapterView.OnItemClickListene
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long row) {
-		System.out.println(position);
-		InSmiley smiley=(InSmiley) adapterView.getItemAtPosition(position);
-		System.out.println(position);
 		EditText editText = (EditText) context.findViewById(R.id.et_sendmessage);
-		System.out.println(position);
-		if (position==21) {
+		if (position==20) {
 			int selection = editText.getSelectionStart();
 			String text = editText.getText().toString();
 			if (selection > 0) {
@@ -43,6 +39,7 @@ public class SmileyOnItemClickListener implements AdapterView.OnItemClickListene
 				editText.getText().delete(selection - 1, selection);
 			}
 		}else{
+			InSmiley smiley=(InSmiley) adapterView.getItemAtPosition(position);
 			SpannableString spannableString = FaceConversionUtil.getInstace().addFace(context, smiley.getId(), smiley.getCharacter());
 			editText.append(spannableString);
 		}

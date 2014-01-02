@@ -4,22 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.xmpp.client.util.DateUtil;
+import org.xmpp.client.util.FaceConversionUtil;
 
 import pro.chinasoft.activity.R;
 import pro.chinasoft.model.InMessage;
 import android.content.Context;
+import android.text.SpannableString;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class InMessageArrayAdapter extends BaseAdapter {
 
 	private List<InMessage> coll;// 消息对象数组
 	private LayoutInflater mInflater;
+	private Context context;
 	public InMessageArrayAdapter(Context context,List<InMessage> coll){
 		if(coll!=null){
 		this.coll=coll;
@@ -27,12 +29,13 @@ public class InMessageArrayAdapter extends BaseAdapter {
 			coll=new ArrayList<InMessage>();
 		}
 		mInflater = LayoutInflater.from(context);
+		this.context=context;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		InMessage item = coll.get(position);
-		
+		System.out.println(item.getCreateDate());
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
 			if (item.isType()) {
@@ -55,9 +58,14 @@ public class InMessageArrayAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		
-		viewHolder.tvSendTime.setText(DateUtil.toString(item.getReviceDate()));
+		viewHolder.tvSendTime.setText(DateUtil.toString(item.getCreateDate()));
 		//viewHolder.tvUserName.setText(item.getInUser().getNick());
-		viewHolder.tvContent.setText(item.getContent());
+		if(!TextUtils.isEmpty(item.getContent())){
+		SpannableString spannableString = FaceConversionUtil.getInstace().getExpressionString(context, item.getContent());
+		viewHolder.tvContent.setText(spannableString);
+		}else{
+			viewHolder.tvContent.setText(item.getContent());
+		}
 		return convertView;
 	}
 	

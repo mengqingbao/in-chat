@@ -9,9 +9,9 @@ import java.util.Map;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.XMPPException;
+import org.xmpp.client.util.DateUtil;
 import org.xmpp.client.util.InMessageStore;
 import org.xmpp.client.util.XmppTool;
-
 
 import pro.chinasoft.adapter.SmileyAdapter;
 import pro.chinasoft.adapter.ViewPagerAdapter;
@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
@@ -36,7 +35,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -110,6 +108,7 @@ public class InChatActivity extends Activity implements OnClickListener{
 	   btn1.setOnClickListener(this);
 	   smileyBtn1=(Button) this.findViewById(R.id.simfyer_btn);
 	   smileyBtn1.setOnClickListener(this);
+	   //listView.setOnTouchListener(this);
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,27 +121,19 @@ public class InChatActivity extends Activity implements OnClickListener{
 	public void onBackPressed() {
 		unregisterReceiver(mReceiver);
 		InMessageStore.close();
-		System.out.println("注销监听 关闭数据库");
 		this.finish();
-	}
-
-	private void saveOrUpdate(String userId, String firendId, String content,String type) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("content", content);
-		map.put("userId", userId);
-		map.put("friendId", friendId);
-		map.put("type", type);
-		InMessageStore.add("InMessage", map, this);
 	}
 
 	//type:true message from yourself,false:msg from friend
 	private void refresh(String content,boolean type) {
+		System.out.println(type+" type:_________________________");
 		InMessage msg = new InMessage();
 		msg.setContent(content);
-		msg.setReviceDate(new Date());
+		msg.setCreateDate(new Date());
 		msg.setType(type);
 		msgs.add(msg);
 		iadapter.notifyDataSetChanged();
+		//listView.setSelection(msgs.size()-1);
 	}
 	BroadcastReceiver mReceiver = new BroadcastReceiver() {
 		@Override
@@ -151,11 +142,9 @@ public class InChatActivity extends Activity implements OnClickListener{
 			String friendId = intent.getStringExtra("friendId");
 			if (friendId.equals(friendId)) {
 				String content = intent.getStringExtra("content");
-				//saveOrUpdate(userId, friendId, content);
 				refresh(content,true);
 				
 			}
-			System.out.println("//"+friendId);
 		}
 	};
 
@@ -169,12 +158,20 @@ public class InChatActivity extends Activity implements OnClickListener{
 			smileyAction();	
 			break;
 		case R.id.btn_send:
-			System.out.println(R.id.btn_send);
 			sendMessage();	
-			break;			
+			break;	
+		case R.id.listview:
+			if (faceView.getVisibility() == View.VISIBLE) {
+				faceView.setVisibility(View.GONE);
+			}
+			if(menuView.getVisibility()==View.VISIBLE){
+				menuView.setVisibility(View.GONE);
+			}
+			break;
 		}
 	}
 	
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
 		if (menuView != null && menuView.getVisibility()==View.VISIBLE) {
@@ -284,6 +281,8 @@ public class InChatActivity extends Activity implements OnClickListener{
 		}
 		if(menuView.getVisibility()==View.GONE){
 			menuView.setVisibility(View.VISIBLE);
+		}else{
+			menuView.setVisibility(View.GONE);
 		}
 	}
 	//发送消息
@@ -296,11 +295,11 @@ public class InChatActivity extends Activity implements OnClickListener{
 		// 刷新内容
 		refresh(message,false);
 		// 保存到sqlite
-		saveOrUpdate(userId, friendId, message,"false");
+		InMessageStore.saveOrUpdate(userId, friendId, message,false,this);
 		try {
 			chat.sendMessage(message);
 		} catch (XMPPException e) {
-			System.out.println(e.getMessage());
+			System.out.println(e.getMessage()+"exception");
 		}
 		// 发送完消息后清空原来的数据
 		text.setText("");

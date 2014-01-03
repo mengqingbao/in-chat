@@ -62,7 +62,7 @@ public class InChatActivity extends Activity implements OnClickListener{
 	private String userId;
 	private List<InMessage> msgs;
 	private Button sendBtn;
-	private Button btn1;
+	private Button btn1,camerabtn;
 	private Button smileyBtn1;
 
 	@Override
@@ -103,6 +103,8 @@ public class InChatActivity extends Activity implements OnClickListener{
 	   faceView=this.findViewById(R.id.in_chat_activity_smiley_ll_facechoose);
 	   menuView=this.findViewById(R.id.in_chat_activity_smiley_ll_menu);
 	   sendBtn=(Button) this.findViewById(R.id.btn_send);
+	   camerabtn=(Button) this.findViewById(R.id.button3);
+	   camerabtn.setOnClickListener(this);
 	   sendBtn.setOnClickListener(this);
 	   btn1=(Button) this.findViewById(R.id.button1);
 	   btn1.setOnClickListener(this);
@@ -126,14 +128,13 @@ public class InChatActivity extends Activity implements OnClickListener{
 
 	//type:true message from yourself,false:msg from friend
 	private void refresh(String content,boolean type) {
-		System.out.println(type+" type:_________________________");
 		InMessage msg = new InMessage();
 		msg.setContent(content);
 		msg.setCreateDate(new Date());
 		msg.setType(type);
 		msgs.add(msg);
 		iadapter.notifyDataSetChanged();
-		//listView.setSelection(msgs.size()-1);
+		listView.setSelection(msgs.size()-1);
 	}
 	BroadcastReceiver mReceiver = new BroadcastReceiver() {
 		@Override
@@ -167,6 +168,11 @@ public class InChatActivity extends Activity implements OnClickListener{
 			if(menuView.getVisibility()==View.VISIBLE){
 				menuView.setVisibility(View.GONE);
 			}
+			break;
+		case R.id.button3:
+			Intent intent = new Intent();
+			intent.setClass(this, CameraActivity.class);
+			startActivity(intent);
 			break;
 		}
 	}

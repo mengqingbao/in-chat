@@ -5,15 +5,7 @@ import java.util.List;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-/**
- * 
- ******************************************
- * @author 廖乃波
- * @文件名称	:  ViewPagerAdapter.java
- * @创建时间	: 2013-1-27 下午02:35:27
- * @文件描述	: ViewPager 数据填充器，切记做其他操作！！！只填充View！！！！
- ******************************************
- */
+
 public class ViewPagerAdapter extends PagerAdapter {
 
     private List<View> pageViews;
@@ -44,9 +36,6 @@ public class ViewPagerAdapter extends PagerAdapter {
         ((ViewPager)arg0).removeView(pageViews.get(arg1));
     }
 
-    /***
-     * 获取每一个item�?类于listview中的getview
-     */
     @Override
     public Object instantiateItem(View arg0, int arg1) {
         ((ViewPager)arg0).addView(pageViews.get(arg1));

@@ -34,23 +34,18 @@ public class InMessageStore {
 	public static  List<InMessage> getMessages(String userId, String friendId,int start ,int limit,Context context) {
 		List<InMessage> result = new ArrayList<InMessage>();
 		db = getDb(true,context);
-		// Cursor c = db.query("InMessage",null,null,null,null,null,null);
 		Cursor c = db.rawQuery(
 				"select * from InMessage where userId=? and friendId=? order by id asc limit "+limit+" offset "+start,
 				new String[] { userId, friendId });
-		// String[] columns = new String[]{"content"};
-		// Cursor c = db.query("InMessage", columns, "userId='"+userId+"'",null,
-		// null, null, "Id");
 		int count=c.getCount();
 		if (c.moveToFirst()) {// 判断游标是否为空
 			for (int i = 0; i < count; i++) {
 				InMessage inMessage = new InMessage();
 				inMessage.setContent(c.getString(c.getColumnIndex("content")));
-				inMessage.setType(Boolean.parseBoolean(c.getString(c.getColumnIndex("type"))));
-				inMessage.setCreateDate(DateUtil.parseDate(c.getString(c.getColumnIndex("createDate"))));
+				inMessage.setType(c.getInt(c.getColumnIndex("type"))==1);
+				inMessage.setCreateDate(new Date(c.getLong(c.getColumnIndex("createDate"))));
 				result.add(inMessage);
 				c.moveToNext();// 移动到指定记录
-				//c.moveToPosition(i);
 			}
 		}
 
@@ -63,8 +58,12 @@ public class InMessageStore {
 		cv.put("content", content);
 		cv.put("userId", userId);
 		cv.put("friendId", friendId);
-		cv.put("type", type);
-		cv.put("createDate",(new Date()).getTime());
+		if(type){
+			cv.put("type", 1);
+		}else{
+			cv.put("type", 0);
+		}
+		cv.put("createDate",new Date().getTime());
 		db.insert("InMessage", null, cv);
 		db.close();
 	}
@@ -78,12 +77,8 @@ public class InMessageStore {
 	public static List<InMessage> getUserMessage(Context context) {
 		List<InMessage> result = new ArrayList<InMessage>();
 		db = getDb(true,context);
-		// Cursor c = db.query("InMessage",null,null,null,null,null,null);
 		Cursor c = db.rawQuery(
 				"select * from InMessage group by friendId order by createDate asc", null);
-		// String[] columns = new String[]{"content"};
-		// Cursor c = db.query("InMessage", columns, "userId='"+userId+"'",null,
-		// null, null, "Id");
 		int count=c.getCount();
 		if (c.moveToFirst()) {// 判断游标是否为空
 			for (int i = 0; i < count; i++) {
@@ -91,11 +86,9 @@ public class InMessageStore {
 				InUser user=new InUser();
 				user.setNick(c.getString(c.getColumnIndex("userId")));
 				inMessage.setContent(c.getString(c.getColumnIndex("content")));
-				//inMessage.setReviceDate();
 				inMessage.setInUser(user);
 				result.add(inMessage);
 				c.moveToNext();// 移动到指定记录
-				//c.moveToPosition(i);
 			}
 		}
 

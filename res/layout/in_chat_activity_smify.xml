@@ -93,6 +93,15 @@
                 android:id="@+id/button2"
                 android:layout_gravity="left"
                 android:background="@drawable/app_panel_pic_icon" />
+            <Button
+                android:id="@+id/button3"
+                android:layout_gravity="left"
+                android:background="@drawable/as_moment" 
+                android:text="拍照"/>
+            <Button
+                android:id="@+id/button4"
+                android:layout_gravity="left"
+                android:background="@drawable/app_panel_video_icon"/>
 
         </GridLayout>
         

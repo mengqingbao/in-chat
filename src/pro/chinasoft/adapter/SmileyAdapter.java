@@ -23,7 +23,6 @@ public class SmileyAdapter extends BaseAdapter {
 	public SmileyAdapter(Context context, int pageNum){
 		 this.inflater=LayoutInflater.from(context);
 		 simleyList=FaceConversionUtil.getInstace().parseData((pageNum)*20, (pageNum+1)*20, context);
-		 System.out.println(simleyList.size()+"++++++++++"+pageNum);
 		 size=simleyList.size();
 	}
 

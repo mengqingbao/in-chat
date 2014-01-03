@@ -35,7 +35,6 @@ public class InChatLogin extends Activity implements OnClickListener {
 						Context.MODE_PRIVATE);
 		String username=sharedPref.getString(getString(R.string.username_store_key), null);
 		String password=sharedPref.getString(getString(R.string.password_store_key), null);
-		System.out.println(username+"//"+password);
 		// 获取用户和密码
 		this.useridText = (EditText) findViewById(R.id.formlogin_userid);
 		this.pwdText = (EditText) findViewById(R.id.formlogin_pwd);

@@ -7,8 +7,9 @@ import java.util.Date;
 
 public class DateUtil {
 	
+	
 	public static String getDate() {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return format.format(new Date());
 	}
 	
@@ -16,7 +17,7 @@ public class DateUtil {
 		if(date==null){
 			return "";
 		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return format.format(date);
 	}
 	
@@ -24,7 +25,7 @@ public class DateUtil {
 		if(date==null||date==""){
 			return null;
 		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat();
 		try {
 			format.parse(date);
 		} catch (ParseException e) {
@@ -33,5 +34,6 @@ public class DateUtil {
 		return null;
 		
 	}
+	
 
 }

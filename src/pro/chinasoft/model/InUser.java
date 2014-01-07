@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class InUser {
 	private int id;
+	private String userId;
 	private String avatar;
 	private String nick;
 	private String desc;
@@ -45,6 +46,10 @@ public class InUser {
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
 	}
-	
-
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 }

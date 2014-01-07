@@ -36,9 +36,9 @@ public class InUserArrayAdapter extends ArrayAdapter<InUser> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		InUser item = getItem(position);
 		View view = mInflater.inflate(R.layout.in_user_list_item, parent, false);
-		TextView label = (TextView) view.findViewById(R.id.nick);
+		TextView label = (TextView) view.findViewById(R.id.u_nick);
 		label.setText(item.getNick());
-		ImageView icon=(ImageView)view.findViewById(R.id.fr_avatar);
+		ImageView icon=(ImageView)view.findViewById(R.id.u_avatar);
 		//icon.setImageResource(R.drawable.icon_home_nor);
 		return view;
 	}

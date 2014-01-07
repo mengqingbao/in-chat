@@ -2,14 +2,11 @@ package pro.chinasoft.activity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.XMPPException;
-import org.xmpp.client.util.DateUtil;
 import org.xmpp.client.util.InMessageStore;
 import org.xmpp.client.util.XmppTool;
 

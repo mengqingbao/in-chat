@@ -23,7 +23,7 @@ public class XmppTool {
 	private static void openConnection() {
 		try {
 			//url、端口，也可以设置连接的服务器名字，地址，端口，用户。
-			ConnectionConfiguration connConfig = new ConnectionConfiguration("192.168.1.137", 5222);
+			ConnectionConfiguration connConfig = new ConnectionConfiguration("192.168.100.101", 5222);
 
 			con = new XMPPConnection(connConfig);
 			con.connect();
